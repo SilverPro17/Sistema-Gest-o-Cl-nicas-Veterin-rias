@@ -5,8 +5,8 @@ const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
 const { makeExecutableSchema } = require('@graphql-tools/schema');
 const typeDefs = require('../src/schemas/schema');
-const resolvers = require('../src/resolvers'); // Importe todos os resolvers
-const connectDB = require('../src/config/db'); // Importe a configuração do Mongoose
+const resolvers = require('../src/resolvers');
+const connectDB = require('../src/config/db');
 
 const app = express();
 const server = new ApolloServer({

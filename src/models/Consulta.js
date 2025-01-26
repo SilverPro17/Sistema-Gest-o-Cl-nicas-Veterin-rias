@@ -1,33 +1,37 @@
 // src/models/Consulta.js
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
-const Animal = require('./Animal');
-const Veterinario = require('./Veterinario');
+const mongoose = require('mongoose');
 
-const Consulta = sequelize.define('Consulta', {
+const ConsultaSchema = new mongoose.Schema({
   data: {
-    type: DataTypes.DATE,
-    allowNull: false,
+    type: Date,
+    required: true,
   },
   horario: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
   },
   motivo: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
   },
   status: {
-    type: DataTypes.ENUM('agendada', 'realizada', 'cancelada'),
-    defaultValue: 'agendada',
+    type: String,
+    enum: ['agendada', 'realizada', 'cancelada'],
+    default: 'agendada',
   },
   historicoMedico: {
-    type: DataTypes.TEXT,
+    type: String,
+  },
+  animalId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Animal',
+    required: true,
+  },
+  veterinarioId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Veterinario',
+    required: true,
   },
 });
 
-// Relacionamentos
-Consulta.belongsTo(Animal, { foreignKey: 'animalId' });
-Consulta.belongsTo(Veterinario, { foreignKey: 'veterinarioId' });
-
-module.exports = Consulta;
+module.exports = mongoose.model('Consulta', ConsultaSchema);

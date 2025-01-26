@@ -1,23 +1,19 @@
 // src/models/Veterinario.js
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const mongoose = require('mongoose');
 
-const Veterinario = sequelize.define('Veterinario', {
+const VeterinarioSchema = new mongoose.Schema({
   nome: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
   },
   especialidades: {
-    type: DataTypes.ARRAY(DataTypes.STRING), // Array de especialidades
-    allowNull: false,
+    type: [String],
+    required: true,
   },
   horariosDisponiveis: {
-    type: DataTypes.ARRAY(DataTypes.STRING), // Array de horários disponíveis
-    allowNull: false,
+    type: [String],
+    required: true,
   },
 });
 
-// Relacionamento
-Veterinario.hasMany(Consulta, { foreignKey: 'veterinarioId' });
-
-module.exports = Veterinario;
+module.exports = mongoose.model('Veterinario', VeterinarioSchema);

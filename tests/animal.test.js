@@ -1,39 +1,50 @@
 // tests/animal.test.js
 const request = require('supertest');
-const app = require('../src/index'); // Ajuste conforme necessário
+const { createTestClient } = require('apollo-server-testing');
+const { ApolloServer } = require('apollo-server-express');
+const express = require('express');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
+const typeDefs = require('../src/schemas/schema');
+const resolvers = require('../src/resolvers'); // Importe todos os resolvers
+const connectDB = require('../src/config/db'); // Importe a configuração do Mongoose
+
+const app = express();
+const server = new ApolloServer({
+  schema: makeExecutableSchema({ typeDefs, resolvers }),
+});
+
+const { query } = createTestClient(server);
 
 describe('Animal API', () => {
+  beforeAll(async () => {
+    await connectDB();
+  });
+
   it('deve criar um novo animal', async () => {
-    const res = await request(app)
-      .post('/graphql')
-      .send({
-        query: `
-          mutation {
-            createAnimal(nome: "Rex", especie: "Cachorro", raca: "Labrador", idade: 3, peso: 30.5, clienteId: "1") {
-              id
-              nome
-            }
+    const res = await query({
+      query: `
+        mutation {
+          createAnimal(nome: "Rex", especie: "Cachorro", raca: "Labrador", idade: 3, peso: 30.5, clienteId: "1") {
+            id
+            nome
           }
-        `,
-      });
-    expect(res.statusCode).toEqual(200);
-    expect(res.body.data.createAnimal.nome).toEqual("Rex");
+        }
+      `,
+    });
+    expect(res.data.createAnimal.nome).toEqual("Rex");
   });
 
   it('deve retornar todos os animais', async () => {
-    const res = await request(app)
-      .post('/graphql')
-      .send({
-        query: `
-          query {
-            getAnimais {
-              id
-              nome
-            }
+    const res = await query({
+      query: `
+        query {
+          getAnimais {
+            id
+            nome
           }
-        `,
-      });
-    expect(res.statusCode).toEqual(200);
-    expect(res.body.data.getAnimais).toBeDefined();
+        }
+      `,
+    });
+    expect(res.data.getAnimais).toBeDefined();
   });
 });

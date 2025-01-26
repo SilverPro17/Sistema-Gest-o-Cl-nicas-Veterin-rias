@@ -1,35 +1,35 @@
 // src/models/Animal.js
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
-const Cliente = require('./Cliente');
+const mongoose = require('mongoose');
 
-const Animal = sequelize.define('Animal', {
+const AnimalSchema = new mongoose.Schema({
   nome: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
   },
   especie: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
   },
   raca: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
   },
   idade: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+    type: Number,
+    required: true,
   },
   peso: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
+    type: Number,
+    required: true,
   },
   historicoMedico: {
-    type: DataTypes.TEXT,
+    type: String,
+  },
+  clienteId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Cliente',
+    required: true,
   },
 });
 
-// Relacionamento
-Animal.belongsTo(Cliente, { foreignKey: 'clienteId' });
-
-module.exports = Animal;
+module.exports = mongoose.model('Animal', AnimalSchema);

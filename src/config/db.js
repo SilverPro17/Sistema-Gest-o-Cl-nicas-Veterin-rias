@@ -1,9 +1,19 @@
-// src/config/db.js
-const { Sequelize } = require('sequelize');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
 
-const sequelize = new Sequelize('nome_do_banco', 'usuario', 'senha', {
-  host: 'localhost',
-  dialect: 'postgres', // ou 'mysql'
-});
+dotenv.config();
 
-module.exports = sequelize;
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('MongoDB conectado');
+  } catch (err) {
+    console.error('Erro ao conectar ao MongoDB:', err);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;

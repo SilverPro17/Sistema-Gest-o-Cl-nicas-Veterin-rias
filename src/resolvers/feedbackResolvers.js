@@ -1,14 +1,13 @@
 // src/resolvers/feedbackResolvers.js
 const Feedback = require('../models/Feedback');
-const Consulta = require('../models/Consulta');
 
 const feedbackResolvers = {
   Query: {
     getFeedbacks: async () => {
-      return await Feedback.findAll({ include: [Consulta] });
+      return await Feedback.find().populate('consultaId');
     },
     getFeedback: async (_, { id }) => {
-      return await Feedback.findByPk(id, { include: [Consulta] });
+      return await Feedback.findById(id).populate('consultaId');
     },
   },
   Mutation: {

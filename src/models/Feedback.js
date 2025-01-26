@@ -1,23 +1,29 @@
 // src/models/Feedback.js
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
-const Consulta = require('./Consulta');
+const mongoose = require('mongoose');
 
-const Feedback = sequelize.define('Feedback', {
+const FeedbackSchema = new mongoose.Schema({
   nota: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    validate: {
-      min: 1,
-      max: 5, // Nota de 1 a 5
-    },
+    type: Number,
+    required: true,
+    min: 1,
+    max: 5,
   },
   comentario: {
-    type: DataTypes.TEXT,
+    type: String,
+  },
+  consultaId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Consulta',
+    required: true,
   },
 });
 
-// Relacionamento
-Feedback.belongsTo(Consulta, { foreignKey: 'consultaId' });
+let Feedback;
+
+try {
+  Feedback = mongoose.model('Feedback');
+} catch (error) {
+  Feedback = mongoose.model('Feedback', FeedbackSchema);
+}
 
 module.exports = Feedback;

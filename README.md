@@ -101,4 +101,101 @@ npm start
 ```
 
 ### Acessar o Playground GraphQL
-Abra o navegador e acesse [http://localhost:4000/graphql](http://localhost:4000/graphql). Use o GraphQL Playground para executar consultas e mutações.
+- Abra o navegador e acesse [http://localhost:4000/graphql](http://localhost:4000/graphql). 
+- Use o GraphQL Playground para executar consultas e mutações. Aqui estão alguns exemplos:
+  - Criar um Cliente:
+      ```bash
+      mutation {
+        createCliente(nome: "Maria", contato: "987654321", endereco: "Rua B") {
+          id
+          nome
+        }
+      }
+      ```
+  - Obter Todos os Clientes:
+      ```bash
+      query {
+        getClientes {
+          id
+          nome
+        }
+      }
+      ```
+  - Criar um Animal:
+      ```bash
+      mutation {
+        createAnimal(nome: "Rex", especie: "Cachorro", raca: "Labrador", idade: 3, peso: 30.5, clienteId: "1") {
+          id
+          nome
+        }
+      }
+
+      ```
+  - Obter Todos os Animais:
+      ```bash
+      query {
+        getAnimais {
+          id
+          nome
+        }
+      }
+      ```
+  - Criar uma Consulta:
+      ```bash
+      mutation {
+        createConsulta(animalId: "1", veterinarioId: "1", data: "2023-10-01", horario: "10:00", motivo: "Check-up") {
+          id
+          motivo
+        }
+      }
+      ```
+  - Obter Todas as Consultas:
+      ```bash
+      query {
+        getConsultas {
+          id
+          motivo
+        }
+      }
+      ```
+  - Criar um Feedback:
+      ```bash
+      mutation {
+        createFeedback(consultaId: "1", nota: 5, comentario: "Ótimo atendimento!") {
+          id
+          nota
+        }
+      }
+      ```
+  - Obter Todos os Feedbacks:
+      ```bash
+      query {
+        getFeedbacks {
+          id
+          nota
+        }
+      }
+      ```
+  - Criar um Veterinário:
+      ```bash
+      mutation {
+        createVeterinario(nome: "Dr. João", especialidades: ["Cirurgia", "Dermatologia"], horariosDisponiveis: ["10:00", "14:00"]) {
+          id
+          nome
+        }
+      }
+      ```
+  - Obter Todos os Veterinários:
+      ```bash
+      query {
+        getVeterinarios {
+          id
+          nome
+        }
+      }
+      ```
+## Licença
+Este projeto está licenciado sob a licença ISC. Consulte o arquivo LICENSE para obter mais informações.
+   ```bash
+   Você pode copiar e colar o conteúdo acima em um arquivo chamado `README.md` no diretório raiz do seu projeto. Isso fornecerá uma visão geral completa do seu projeto, explicando como configurar, executar e testar a aplicação.
+   ```

@@ -24,7 +24,7 @@ describe('Animal API', () => {
     const res = await query({
       query: `
         mutation {
-          createAnimal(nome: "Rex", especie: "Cachorro", raca: "Labrador", idade: 3, peso: 30.5, clienteId: "1") {
+          createAnimal(nome: "Rex", especie: "Cachorro", raca: "Labrador", idade: 3, peso: 30.5, clienteId: "6797d2b69a46438169b84083") {
             id
             nome
           }
